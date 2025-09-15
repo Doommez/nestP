@@ -11,10 +11,11 @@ export class AuthService {
   ) {}
 
   login(userDto: CreateUserDto) {
-    return;
+    return userDto;
   }
 
   registration(userDto: CreateUserDto) {
-    const candidate = await this.usersService.return;
+    // const candidate = await this.usersService.createUser(userDto);
+    return userDto;
   }
 }
