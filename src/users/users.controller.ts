@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './create-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -17,8 +17,15 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Получение всех пользователей ' })
   @ApiResponse({ status: 200, type: [User] })
-  @Get()
+  @Get('all')
   async getAllUsers() {
     return await this.userService.getAllUsers();
+  }
+
+  @ApiOperation({ summary: 'Получение пользователя по его мылу ' })
+  @ApiResponse({ status: 200, type: [User] })
+  @Get('mail/')
+  async getUserByEmail(@Query('email') email: string) {
+    return await this.userService.getUserByEmail(email);
   }
 }

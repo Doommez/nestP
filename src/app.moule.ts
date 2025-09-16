@@ -21,6 +21,10 @@ import { UserRoles } from './roles/user-roles.model';
       database: process.env.POSTGRES_DB,
       models: [User, Role, UserRoles],
       autoLoadModels: true,
+      synchronize: false,
+      sync: {
+        alter: true,
+      },
     }),
     UsersModule,
     RolesModule,
