@@ -5,6 +5,9 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './user.model';
 import { Roles } from '../auth/roles-auth.decorator';
 import { RolesGuard } from '../auth/roles.guard';
+import { AuthGuard } from '../auth/jwt-auth.guard';
+import { AddRoleDTO } from './dto/add-role.dto';
+import { BanUserDto } from './dto/ban-user.dto';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -31,5 +34,25 @@ export class UsersController {
   @Get('mail/')
   async getUserByEmail(@Query('email') email: string) {
     return await this.userService.getUserByEmail(email);
+  }
+
+  @ApiOperation({ summary: 'Выдать роль ' })
+  @ApiResponse({ status: 200 })
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  @Post('add/role')
+  async addRole(@Body() addRole: AddRoleDTO) {
+    return await this.userService.addRole(addRole);
+  }
+
+  @ApiOperation({ summary: 'Забанить пользотвателя ' })
+  @ApiResponse({ status: 200 })
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  @Post('ban')
+  async ban(@Body() value: BanUserDto) {
+    return await this.userService.ban(value);
   }
 }

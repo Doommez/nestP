@@ -4,6 +4,8 @@ import { InjectModel } from '@nestjs/sequelize';
 
 import { User } from './user.model';
 import { RolesService } from '../roles/role.service';
+import { AddRoleDTO } from './dto/add-role.dto';
+import { BanUserDto } from './dto/ban-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -33,5 +35,16 @@ export class UsersService {
         all: true,
       },
     });
+  }
+
+  async addRole(dto: AddRoleDTO) {
+    const user = await this.userRepository.findByPk(dto.userid);
+    const role = await this.rolesService.getRoleByValue(dto.value);
+    if (role && user) {
+    }
+  }
+
+  async ban(value: BanUserDto) {
+    return Promise.resolve(undefined);
   }
 }
